@@ -19,7 +19,7 @@ Telegram::Bot::Client.run(API_KEY) do |bot|
           bot.api.send_message(chat_id: message.chat.id, text: "Я знаю #{Messages.size} сообщений")
       end
 
-      if rand(0..5) == 1 and message.chat.id
+      if rand(0..6) == 1
         bot.api.send_message(chat_id: message.chat.id, text: Messages.sample)
         File.write("db.yaml", Messages.to_yaml) # вынесено т.к. с большой базой сообщений так можно ускорить принятие сообщений
         puts "Sent new random message and saved db"
