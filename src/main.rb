@@ -11,12 +11,14 @@ puts "Loaded #{Messages.size} messages"
 Telegram::Bot::Client.run(API_KEY) do |bot|
   bot.listen do |message|
     if message.methods.include?(:text) && message.chat.id == TARGET_CHAT_ID
-      Messages.append(message.text)
-      puts "(#{Messages.size}) Appended #{message.text}"
-
       case message.text
+      when nil
+        puts "I caught nil, ignoring"
       when "Сколько сообщений"
-          bot.api.send_message(chat_id: message.chat.id, text: "Я знаю #{Messages.size} сообщений")
+        bot.api.send_message(chat_id: message.chat.id, text: "Я знаю #{Messages.size} сообщений")
+      else
+        puts "(#{Messages.size}) Appended #{message.text}"
+        Messages.append(message.text)
       end
 
       if rand(0..6) == 1
