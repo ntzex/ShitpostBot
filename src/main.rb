@@ -3,8 +3,8 @@
 require 'yaml'
 require 'telegram/bot'
 
-API_KEY = ""
-TARGET_CHAT_ID = # т.к. я его заточил под один чат
+API_KEY = ''.freeze
+TARGET_CHAT_ID = nil # replace with chat id
 
 yaml_file = File.open('db.yaml')
 Messages = YAML.safe_load(yaml_file.read)
@@ -25,7 +25,8 @@ Telegram::Bot::Client.run(API_KEY) do |bot|
 
       if rand(0..6) == 1
         bot.api.send_message(chat_id: message.chat.id, text: Messages.sample)
-        File.write('db.yaml', Messages.to_yaml) # вынесено т.к. с большой базой сообщений так можно ускорить принятие сообщений
+        File.write('db.yaml', Messages.to_yaml)
+        # вынесено т.к. с большой базой сообщений так можно ускорить принятие сообщений
         puts 'Sent new random message and saved db'
       end
     end
